@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Simple DApp</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>Message Storing DApp :)</h2>
+
+    <p id="network">Network status: <span id="networkStatus">—</span></p>
+
+    <div id="currentMessage">Current message: (click Get)</div>
+
+    <div>
+      <input type="text" id="messageInput" placeholder="Type new message">
+      <br>
+      <button id="setMessageBtn">Set Message (write)</button>
+      <button id="getMessageBtn">Get Message (read)</button>
+    </div>
+  </div>
+
+  <!-- Load ethers.js -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+  <script>
+    // ========== CONFIGURATION ==========
+    const contractAddress = "0xDdABb651130A26d318c33e4938d65f5cAc31d055"; // Your deployed contract address
+
+    // Smart contract ABI
+    const abi = [
+      "function getAllMessages() view returns (string[] memory)",
+      "function getLatestMessage() view returns (string memory)",
+      "function setMessage(string _message)"
+    ];
+    // ==================================
+
+    async function checkMetaMask() {
+      if (!window.ethereum) {
+        document.getElementById('networkStatus').innerText = '❌ MetaMask not found';
+        return false;
+      }
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        document.getElementById('networkStatus').innerText = '✅ Connected: ' + accounts[0].slice(0, 6) + '...';
+        return true;
+      } catch (e) {
+        document.getElementById('networkStatus').innerText = '⚠️ Connection denied';
+        return false;
+      }
+    }
+
+    async function getContract() {
+      await checkMetaMask();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      return new ethers.Contract(contractAddress, abi, signer);
+    }
+
+    // ---------- READ MESSAGE ----------
+    document.getElementById('getMessageBtn').onclick = async () => {
+      try {
+        const contract = await getContract();
+        const msgs = await contract.getAllMessages();
+        document.getElementById('currentMessage').innerText =
+          "📜 All Messages: " + msgs.join(" | ");
+      } catch (err) {
+        alert('Error reading message: ' + (err.message || err));
+      }
+    };
+
+    // ---------- WRITE MESSAGE ----------
+    document.getElementById('setMessageBtn').onclick = async () => {
+      try {
+        const contract = await getContract();
+        const newMsg = document.getElementById('messageInput').value.trim();
+        if (!newMsg) return alert('Enter a message first');
+
+        const tx = await contract.setMessage(newMsg);
+        alert('Transaction sent. Waiting for confirmation...');
+        await tx.wait();
+        alert('Transaction confirmed! Message stored on blockchain.');
+      } catch (err) {
+        alert('Error sending transaction: ' + (err.message || err));
+      }
+    };
+  </script>
+</body>
+</html>

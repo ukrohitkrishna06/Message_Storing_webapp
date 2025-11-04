@@ -1,0 +1,101 @@
+/* === General Page Layout === */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e9f0ff, #f3f6ff);
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* === Main DApp Container === */
+.container {
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* === Title === */
+h2 {
+  color: #003399;
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+/* === Status and Message Info === */
+#network {
+  background: #f2f6ff;
+  color: #004aad;
+  border: 1px solid #cdd9ff;
+  border-radius: 10px;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+/* === Input Box === */
+input[type="text"] {
+  width: 80%;
+  padding: 0.7rem;
+  border: 1px solid #ccd3ff;
+  border-radius: 8px;
+  margin: 0.8rem 0;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+body.dark-mode {
+  background: radial-gradient(circle at center, #1a1a2e, #16213e);
+  color: #f5f5f5;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #004aad;
+  box-shadow: 0 0 5px rgba(0, 74, 173, 0.2);
+}
+
+/* === Buttons === */
+button {
+  background: linear-gradient(135deg, #004aad, #0074ff);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #005eff, #008cff);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 74, 173, 0.3);
+}
+
+/* === Current Message === */
+#currentMessage {
+  background: #f9f9ff;
+  border-left: 4px solid #004aad;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+}
